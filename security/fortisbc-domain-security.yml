@@ -1,0 +1,50 @@
+generated: '2026-07-27'
+method: probed
+source: >-
+  live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts (probe-domain-security.py),
+  extended by hand with the accounts./outages./rebates. subdomains probed
+  2026-07-27
+hosts:
+- host: www.fortisbc.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 19 20:01:02 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: accounts.fortisbc.com
+  https: true
+  tls_version: TLSv1.3
+  hsts: true
+  hsts_max_age: 157680000
+  hsts_include_subdomains: true
+  note: >-
+    Customer login (SiteMinder/SAML). Fronted by a Citrix NetScaler application
+    firewall that answers unknown paths with a soft 200 block page.
+- host: outages.fortisbc.com
+  https: true
+  tls_version: TLSv1.3
+  hsts: true
+  hsts_max_age: 157680000
+  hsts_include_subdomains: true
+  note: Outage map. Same NetScaler application firewall as accounts.
+- host: rebates.fortisbc.com
+  https: true
+  tls_version: TLSv1.3
+  hsts: true
+  hsts_max_age: 31536000
+  hsts_include_subdomains: true
+  hsts_preload: true
+  server: cloudflare
+domains:
+- domain: fortisbc.com
+  dnssec: false
+  caa:
+  - 0 issue "ssl.com"
+  - 0 issuewild "letsencrypt.org"
+  - 0 issuewild "pki.goog; cansignhttpexchanges=yes"
+  - 0 issuewild "ssl.com"
+  - 0 issue "digicert.com"
+  - 0 issue "godaddy.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

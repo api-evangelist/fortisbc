@@ -1,0 +1,45 @@
+# FortisBC
+
+> FortisBC is a British Columbia energy utility and a subsidiary of Fortis Inc., delivering natural gas to more than 1,054,000 customers and electricity directly to close to 185,000 customers across the province's Southern Interior, plus liquefied natural gas from the Tilbury and Mt. Hayes facilities, renewable natural gas, and EV charging. It is regulated by the British Columbia Utilities Commission (BCUC).
+
+**FortisBC publishes no public API.** There is no developer portal, no API documentation, no OpenAPI/Swagger contract, no GraphQL endpoint, no AsyncAPI or webhook surface, no MCP server, no SDK in any package registry, and no Green Button implementation. British Columbia has enacted no consumer energy data right — it sits outside Ontario's Green Button mandate (O. Reg. 633/21) and outside Australia's Consumer Data Right — and no BCUC order requires one. This file exists so an agent does not waste probes: the developer-facing conventions below were all checked and all failed.
+
+## What does not exist
+
+- No `developer.`, `developers.`, `api.`, `docs.`, `data.`, `gis.`, `maps.`, `opendata.` or `services.` subdomain (NXDOMAIN).
+- No `/developers`, `/api`, `/docs`, `/data`, `/about-us/open-data` (HTTP 404 on www.fortisbc.com).
+- No `/openapi.json`, `/swagger.json`, `/api-docs` on any resolving FortisBC host.
+- No `/.well-known/security.txt`, `/.well-known/openid-configuration`, `/.well-known/oauth-authorization-server`, `/.well-known/api-catalog` or `/.well-known/ai-plugin.json`. On `accounts.fortisbc.com` and `outages.fortisbc.com` these paths return a **soft HTTP 200 whose body is a Citrix NetScaler firewall block page** — do not read that 200 as a discovery surface.
+- No `github.com/FortisBC` public repositories (the organization exists, created 2022-06-06, with 0 public repos).
+- No npm, PyPI or RubyGems package.
+- No OAuth, no OpenID Connect, no third-party authorization. Customer sign-in is a CA/Broadcom SiteMinder web agent with SAML 2.0 SSO.
+
+## How data is actually reached
+
+- [My energy use](https://www.fortisbc.com/accounts/open-close-or-move-your-account/my-energy-use): in-portal usage views for the account holder only, after logging in. Billing data exits as a spreadsheet/text download — a human export, not Green Button Download My Data.
+- [Manage your online account](https://www.fortisbc.com/accounts/open-close-or-move-your-account/manage-your-online-account): what the customer portal does.
+- [Online account login](https://accounts.fortisbc.com): SiteMinder/SAML customer login. Not a developer portal, no signup for API access.
+- [ENERGY STAR Portfolio Manager data exchange](https://www.fortisbc.com/services/commercial-industrial-services/energy-efficiency-tools-for-natural-gas-business-customers): the one automated flow. A commercial natural gas customer connects to "FortisBC natural gas" inside the US EPA's Portfolio Manager, accepts the FortisBC [terms and conditions](https://www.fortisbc.com/services/commercial-industrial-services/energy-efficiency-tools-for-natural-gas-business-customers/portfolio-manager-terms-and-conditions), and validates each meter with a FortisBC account number, last bill date and bill amount. Released data covers three years prior plus future consumption. **The API in this arrangement belongs to the EPA, not to FortisBC.**
+- [Facilities, operations and energy information](https://www.fortisbc.com/about-us/facilities-operations-and-energy-information): rate schedules, BCUC regulatory filings and Kootenay Lake levels, published as web pages and PDFs — no CSV, JSON, bulk export or feed.
+- [Outage map](https://outages.fortisbc.com/outages): a server-rendered ASP.NET page drawing a Bing Maps control. No documented data endpoint and no published contract.
+
+## Site
+
+- [FortisBC](https://www.fortisbc.com/)
+- [Contact us](https://www.fortisbc.com/contact-us)
+- [Stories / news](https://www.fortisbc.com/about-us/news-events/stories)
+- [Privacy](https://www.fortisbc.com/privacy)
+- [Sitemap](https://www.fortisbc.com/sitemap)
+
+## API Evangelist artifacts
+
+- [apis.yml](https://raw.githubusercontent.com/api-evangelist/fortisbc/refs/heads/main/apis.yml)
+- [review.yml](https://raw.githubusercontent.com/api-evangelist/fortisbc/refs/heads/main/review.yml) — the full anonymous probe record and the mandate/implementation analysis
+- [conformance](https://raw.githubusercontent.com/api-evangelist/fortisbc/refs/heads/main/conformance/fortisbc-conformance.yml) — standards checked, all negative except SAML 2.0 sign-in and EPA Portfolio Manager participation
+- [well-known probes](https://raw.githubusercontent.com/api-evangelist/fortisbc/refs/heads/main/well-known/fortisbc-well-known.yml)
+- [domain security](https://raw.githubusercontent.com/api-evangelist/fortisbc/refs/heads/main/security/fortisbc-domain-security.yml)
+
+---
+generated: 2026-07-27
+method: generated
+source: apis.yml + review.yml + repo artifacts (no provider llms.txt exists; https://www.fortisbc.com/llms.txt returns 404)

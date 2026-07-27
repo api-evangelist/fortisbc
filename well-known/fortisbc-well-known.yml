@@ -1,0 +1,82 @@
+generated: '2026-07-27'
+method: probed
+source: anonymous HTTP probes of every FortisBC host in apis.yml
+summary: >-
+  No RFC 9116 security.txt, no OIDC discovery document, no RFC 8414
+  authorization-server metadata, no RFC 9727 api-catalog and no ai-plugin.json
+  is served on any FortisBC host. www.fortisbc.com and rebates.fortisbc.com
+  answer every /.well-known/ path with a hard 404. accounts.fortisbc.com and
+  outages.fortisbc.com answer with a SOFT 200 whose body is a Citrix NetScaler
+  application-firewall block page ("Application Firewall Block Page" /
+  "Violation Category = APPFW_SIGNATURE_MATCH"), NOT a discovery document — the
+  200 status must not be read as a well-known surface. Nothing was harvested,
+  so no raw files accompany this index and no WellKnown pointer is wired into
+  apis.yml.
+documents: []
+probes:
+- host: https://www.fortisbc.com
+  results:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /llms.txt, status: 404}
+  - {path: /openapi.json, status: 404}
+- host: https://accounts.fortisbc.com
+  note: >-
+    Customer login (CA/Broadcom SiteMinder + SAML 2.0). Every 200 below is a WAF
+    block page, not a document.
+  results:
+  - {path: /.well-known/security.txt, status: 200, body: waf-block-page}
+  - {path: /.well-known/openid-configuration, status: 200, body: waf-block-page}
+  - {path: /.well-known/oauth-authorization-server, status: 200, body: waf-block-page}
+  - {path: /.well-known/api-catalog, status: 200, body: waf-block-page}
+  - {path: /.well-known/ai-plugin.json, status: 200, body: waf-block-page}
+  - {path: /llms.txt, status: 404}
+  - {path: /openapi.json, status: 404}
+- host: https://outages.fortisbc.com
+  note: Outage map application. Same NetScaler WAF soft-200 behaviour.
+  results:
+  - {path: /.well-known/security.txt, status: 200, body: waf-block-page}
+  - {path: /.well-known/openid-configuration, status: 200, body: waf-block-page}
+  - {path: /.well-known/oauth-authorization-server, status: 200, body: waf-block-page}
+  - {path: /.well-known/api-catalog, status: 200, body: waf-block-page}
+  - {path: /.well-known/ai-plugin.json, status: 200, body: waf-block-page}
+  - {path: /llms.txt, status: 200, body: waf-block-page}
+  - {path: /openapi.json, status: 200, body: waf-block-page}
+- host: https://rebates.fortisbc.com
+  note: Rebate application web app, fronted by Cloudflare.
+  results:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 500}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /llms.txt, status: 404}
+  - {path: /openapi.json, status: 404}
+contract_discovery:
+  openapi: none
+  swagger: none
+  graphql: none
+  asyncapi: none
+  mcp: none
+  note: >-
+    Round-2 contract discovery went beyond the docs host: /openapi.json,
+    /swagger.json and /llms.txt were probed on every resolving FortisBC host
+    (www, accounts, outages, rebates), not just www. No host returns a
+    parseable OpenAPI/Swagger document; the only 200s are WAF block pages.
+    The one undocumented machine-readable endpoint found anywhere on the estate
+    is https://outages.fortisbc.com/Outages/Home/GetUpdateStatus, an internal
+    AJAX call referenced at line 736 of the outage-map page that returns
+    text/xml `<UpdateStatus><Message value="Updated: YYYY-MM-DD HH:MM" /></UpdateStatus>`
+    — a single last-refreshed timestamp, undocumented, unversioned, with no
+    published contract. It is recorded here as evidence and is deliberately NOT
+    catalogued as a FortisBC API. The outage map itself draws a Bing Maps
+    control (dev.virtualearth.net); its client script exposes no FortisBC data
+    endpoint.
+  registries:
+  - {registry: npm, query: fortisbc, results: 0}
+  - {registry: pypi, query: fortisbc, status: 404}
+  - {registry: rubygems, query: fortisbc, results: 0}
+  - {registry: github, org: FortisBC, public_repos: 0, created: '2022-06-06'}

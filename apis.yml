@@ -39,6 +39,8 @@ modified: '2026-07-27'
 specificationVersion: '0.19'
 apis: []
 common:
+- type: DomainSecurity
+  url: security/fortisbc-domain-security.yml
 - type: Website
   url: https://www.fortisbc.com/
 - type: LinkedIn
@@ -55,10 +57,18 @@ common:
   url: https://www.fortisbc.com/services/commercial-industrial-services/energy-efficiency-tools-for-natural-gas-business-customers
 - type: TermsOfService
   url: https://www.fortisbc.com/services/commercial-industrial-services/energy-efficiency-tools-for-natural-gas-business-customers/portfolio-manager-terms-and-conditions
-- type: Privacy
+- type: PrivacyPolicy
   url: https://www.fortisbc.com/privacy
 - type: StatusPage
   url: https://outages.fortisbc.com/outages
+- type: Support
+  url: https://www.fortisbc.com/contact-us
+- type: GitHubOrganization
+  url: https://github.com/FortisBC
+- type: Conformance
+  url: conformance/fortisbc-conformance.yml
+- type: LLMsTxt
+  url: llms/fortisbc-llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

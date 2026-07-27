@@ -1,0 +1,101 @@
+generated: '2026-07-27'
+method: derived
+source: review.yml + anonymous probes of FortisBC hosts (2026-07-27)
+summary: >-
+  FortisBC conforms to no consumer-energy-data, API or grid-interoperability
+  standard. There is no mandate in British Columbia and no voluntary
+  implementation. The single machine-to-machine data flow FortisBC documents
+  runs on the US EPA's ENERGY STAR Portfolio Manager platform, where FortisBC is
+  a data-supplying counterparty rather than the publisher of the interface.
+standards:
+- id: green-button-download-my-data
+  conforms: false
+  evidence: >-
+    No Download My Data export anywhere in the customer portal; "My energy use"
+    offers in-portal charts and a Billing > Export billing information
+    spreadsheet download only.
+- id: green-button-connect-my-data
+  conforms: false
+  evidence: >-
+    No third-party authorization surface, no OAuth, no base URI. Green Button
+    Alliance Canadian Initiatives page (HTTP 200, 2026-07-27) states verbatim
+    "We have heard only minor discussions of Green Button in British Columbia
+    to-date" and names neither FortisBC nor BC Hydro.
+- id: naesb-req21-espi
+  conforms: false
+  evidence: No ESPI Atom/XML resource surface found on any FortisBC host.
+- id: cdr-consumer-data-standards
+  conforms: false
+  evidence: >-
+    Australian Consumer Data Right energy standards do not apply in Canada and
+    FortisBC has no CDR register entry.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No third-party authorization surface of any kind. Customer sign-in is a
+    CA/Broadcom SiteMinder web agent with SAML 2.0 SSO to
+    ciamidp.fortisbc.com/affwebservices/public/saml2sso.
+- id: openid-connect
+  conforms: false
+  evidence: >-
+    /.well-known/openid-configuration returns 404 on www.fortisbc.com; the
+    accounts.fortisbc.com 200 is a Citrix NetScaler WAF block page
+    (APPFW_SIGNATURE_MATCH), not a discovery document.
+- id: saml2
+  conforms: true
+  evidence: >-
+    accounts.fortisbc.com redirects through
+    ciam.fortisbc.com/siteminderagent/forms/fbclogin.fcc with a SAMLRequest
+    bound to ciamidp.fortisbc.com/affwebservices/public/saml2sso. Human
+    interactive login only — not an API authorization surface.
+- id: openapi
+  conforms: false
+  evidence: >-
+    /openapi.json, /swagger.json and /api-docs return 404 (or WAF block pages)
+    on every resolving FortisBC host.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: No API, therefore no error envelope.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on www.fortisbc.com.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog returns 404 on www.fortisbc.com.
+- id: iec-cim-61968-61970
+  conforms: false
+  evidence: No published grid/system data of any kind.
+- id: ieee-2030.5
+  conforms: false
+  evidence: No DER/smart-energy interface published.
+- id: openadr
+  conforms: false
+  evidence: No demand-response signalling interface published.
+- id: ocpp
+  conforms: false
+  evidence: >-
+    FortisBC operates EV charging but publishes no charge-point management
+    interface.
+- id: ocpi
+  conforms: false
+  evidence: >-
+    No roaming/location feed for the FortisBC EV charging network is published.
+- id: energy-star-portfolio-manager-data-exchange
+  conforms: true
+  role: data-supplying-counterparty
+  evidence: >-
+    FortisBC is a listed contact in the US EPA ENERGY STAR Portfolio Manager
+    (adapted for Canada by Natural Resources Canada) and pushes commercial
+    natural gas consumption into it on customer request. Documented in the
+    FortisBC Portfolio Manager quick start guide (HTTP 200, application/pdf,
+    2026-07-27) and its terms and conditions page. The web-services interface
+    belongs to the EPA, not to FortisBC; FortisBC publishes no contract, base
+    URL or endpoint of its own.
+  source: https://www.cdn.fortisbc.com/libraries/docs/default-source/services-documents/portfolio-manager-quick-guide.pdf
+compliance_program:
+  published: false
+  note: >-
+    No trust center, no SOC 2 / ISO 27001 / PCI DSS / HIPAA / FedRAMP claim, and
+    no vulnerability-disclosure or bug-bounty program was found on any FortisBC
+    host (probe-security-programs.py, 2026-07-27: vdp=none trust=none).
+    No `Compliance` pointer is wired, because no compliance posture is published.
