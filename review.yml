@@ -1,0 +1,314 @@
+aid: fortisbc
+name: FortisBC
+review:
+  question: >-
+    Does FortisBC publish a public developer API, an OpenAPI contract, or a
+    standards-conformant consumer energy data surface (Green Button / ESPI,
+    Consumer Data Right, or equivalent)?
+  answer: false
+  date: '2026-07-27'
+  reviewer: API Evangelist
+  method: >-
+    Anonymous HTTP probing of fortisbc.com and its subdomains, plus documentation
+    review of FortisBC customer and commercial pages, the Green Button Alliance
+    Canadian Initiatives page, and the FortisBC ENERGY STAR Portfolio Manager
+    quick start guide.
+
+homeMarket:
+  country: Canada
+  subnational: British Columbia
+  regulator: British Columbia Utilities Commission (BCUC)
+  parent: Fortis Inc.
+  tier: utility-retailer (regulated gas and electricity distribution)
+  serviceTerritory: >-
+    More than 1,054,000 natural gas customers province-wide; close to 185,000
+    electricity customers directly in the Southern Interior (West Kootenay,
+    Okanagan, Boundary, Similkameen). Also operates the Tilbury and Mt. Hayes
+    LNG facilities and a renewable natural gas program.
+  marketStructure: >-
+    British Columbia has no competitive wholesale electricity market and no
+    independent system operator equivalent to Ontario's IESO or Alberta's AESO.
+    BC Hydro is the provincial Crown utility; FortisBC is the investor-owned
+    exception, a Fortis Inc. subsidiary regulated by the BCUC.
+
+mandate:
+  regime: none
+  status: none
+  verbatim: >-
+    No consumer energy data mandate applies to FortisBC. Ontario's Green Button
+    mandate is a province-level regulation (O. Reg. 633/21, November 2021,
+    requiring Connect My Data and Download My Data with Green Button Alliance
+    certification by November 2023) and reaches only Ontario local distribution
+    companies. Nova Scotia's Bill 145 (April 2022) binds Nova Scotia Power only.
+    Australia's Consumer Data Right energy extension is an Australian statute and
+    does not apply in Canada. British Columbia has enacted no equivalent, and no
+    BCUC order requiring Green Button, ESPI, or any consumer data right was
+    found.
+  evidence:
+  - source: https://www.greenbuttonalliance.org/canadian-initiatives
+    finding: >-
+      The Green Button Alliance states, verbatim, "We have heard only minor
+      discussions of Green Button in British Columbia to-date." Neither FortisBC
+      nor BC Hydro is named on the page. The same page documents Ontario's
+      O. Reg. 633/21 mandate and Nova Scotia's Bill 145, establishing that these
+      obligations are jurisdiction-specific.
+    fetched: '2026-07-27'
+    httpStatus: 200
+  - source: https://www.greenbuttonalliance.org/certified
+    finding: Returned HTTP 404; no certified-utility register consulted at this path.
+    fetched: '2026-07-27'
+    httpStatus: 404
+  notImplemented: >-
+    No Green Button Download My Data, no Connect My Data, no Green Button
+    Alliance certification, no CDR register entry, no standards-conformant base
+    URI. This is a genuine "no mandate and no implementation" case — not a
+    mandate that went unbuilt.
+
+dataStandard:
+  implemented: none
+  note: >-
+    No energy-data standard reference found. No Green Button / NAESB REQ.21 ESPI,
+    no CDR Consumer Data Standards, no OCPP or OCPI, no OpenADR, no IEEE 2030.5,
+    no IEC CIM 61968/61970. The only machine-to-machine data exchange found is
+    the US EPA's ENERGY STAR Portfolio Manager data exchange (a proprietary EPA
+    web-services schema), and FortisBC participates in it as a data-supplying
+    counterparty rather than publishing it.
+
+consumerVsMarketSplit:
+  consumerDataApi: false
+  consumerDataDetail: >-
+    No third party can obtain an individual FortisBC customer's usage or billing
+    data through any API that FortisBC documents or publishes. Account holders
+    reach their own data only by logging in at accounts.fortisbc.com, where the
+    "My energy use" tab and a Billing > Export billing information function
+    produce a text file or spreadsheet download. That is a human export, not an
+    API, and not Green Button Download My Data.
+  partialException: >-
+    ONE genuine automated data flow exists, and it is worth recording precisely
+    because it is not a FortisBC API. FortisBC is a listed contact in the US EPA
+    ENERGY STAR Portfolio Manager (adapted for Canada by Natural Resources
+    Canada) and will push a commercial natural gas customer's consumption data
+    into that platform on request. The FortisBC quick start guide (fetched
+    2026-07-27, HTTP 200, application/pdf) documents the flow: search Portfolio
+    Manager contacts for "FortisBC natural gas", send a connection request,
+    accept FortisBC's terms and conditions for transfer and use of the data,
+    wait up to 24 hours for FortisBC to accept, then share properties and
+    validate each meter with the FortisBC account number, last bill date and
+    amount, granting "full access" sharing (read-only sharing is rejected).
+    Released data covers the three years prior to submission plus future
+    consumption from the submission date. The API in this arrangement belongs to
+    the EPA, not to FortisBC; FortisBC publishes no contract, no base URL, and no
+    endpoint of its own.
+  marketDataOpen: false
+  marketDataDetail: >-
+    No open grid, market, or system data. British Columbia has no wholesale
+    market operator publishing feeds. FortisBC's /about-us/facilities-operations-
+    and-energy-information page (HTTP 200) publishes rate schedules, BCUC
+    regulatory filings and Kootenay Lake level information as human-readable web
+    pages and PDFs, with no CSV, JSON, bulk export, or feed. The outage map at
+    outages.fortisbc.com/outages (HTTP 200) is a server-rendered ASP.NET page
+    drawing a Bing Maps control; its JavaScript
+    (/Outages/Scripts/Custom/jOutageMap.js, HTTP 200) exposes no documented data
+    endpoint and no published contract, so it is not counted as open data.
+
+accessGate:
+  gate: customer-account-required
+  whatADeveloperMustDo: >-
+    There is no developer path. There is no signup, no key request, no
+    application form, and no partner program for API access. To reach any
+    FortisBC data a person must be an existing FortisBC account holder and log in
+    at accounts.fortisbc.com. To automate commercial gas consumption data a
+    person must additionally hold an ENERGY STAR Portfolio Manager account, send
+    FortisBC a connection request through that platform, accept FortisBC's terms
+    and conditions, and validate each meter with a FortisBC account number, last
+    bill date and bill amount — a consent flow operated inside a third party's
+    product.
+
+authModel:
+  scheme: >-
+    CA/Broadcom SiteMinder web agent with SAML 2.0 SSO for the customer portal.
+    Human interactive login only.
+  evidence: >-
+    https://accounts.fortisbc.com returns HTTP 200 after redirecting through
+    https://ciam.fortisbc.com/siteminderagent/forms/fbclogin.fcc with SMAGENTNAME,
+    REALMOID and a SAMLRequest bound to ciamidp.fortisbc.com/affwebservices/
+    public/saml2sso. Response headers include Strict-Transport-Security,
+    Content-Security-Policy frame-ancestors 'self', X-Frame-Options SAMEORIGIN
+    and SameSite Strict.
+  oidc: >-
+    No OpenID Connect discovery document is served. https://www.fortisbc.com/
+    .well-known/openid-configuration returned HTTP 404. https://accounts.fortisbc.com/
+    .well-known/openid-configuration returned HTTP 200 but the body is a WAF
+    block page ("Violation Category = APPFW_SIGNATURE_MATCH", Citrix-style
+    customized error page), not a discovery document — a soft 200 that must not
+    be read as an OIDC surface.
+  oauth: None. No third-party authorization surface of any kind.
+
+findings:
+  summary: |
+    FortisBC publishes no public API. Every developer-facing convention was
+    probed anonymously on 2026-07-27 and every one failed: the developer.,
+    developers., api., docs., data., gis., maps., opendata., services., my. and
+    portal. subdomains do not resolve (NXDOMAIN), and /developers, /api, /docs,
+    /data, /openapi.json, /swagger.json, /api-docs, /.well-known/openid-configuration,
+    /.well-known/security.txt, /.well-known/ai-plugin.json, /llms.txt,
+    /sitemap.xml and /about-us/open-data all return HTTP 404 on www.fortisbc.com.
+    A github.com/FortisBC organization exists (created 2022-06-06) but reports
+    0 public repositories.
+
+    The sector question — is a mandate an implementation? — does not even get
+    asked here, because there is no mandate. FortisBC is the control case: an
+    investor-owned distribution utility in a province that legislated nothing,
+    sitting beside Ontario utilities that were compelled by O. Reg. 633/21 to
+    build Green Button and did. Same country, same standard available, opposite
+    outcome. The variable is regulation, not capability.
+
+    The consumer/market split is not a split at all: both sides are closed.
+    Customer usage data is behind a SiteMinder login and exits as a spreadsheet
+    download. Grid and system data is published as web pages and PDFs. The one
+    automated pathway — ENERGY STAR Portfolio Manager data exchange for
+    commercial gas meters — runs through the US EPA's platform under a
+    per-meter customer consent, and correctly belongs on the EPA's ledger, not
+    FortisBC's.
+  probes:
+  - url: https://www.fortisbc.com/
+    httpStatus: 200
+    note: Corporate site. www canonical; fortisbc.com redirects to www.
+  - url: https://developer.fortisbc.com/
+    httpStatus: 0
+    note: DNS does not resolve (NXDOMAIN).
+  - url: https://developers.fortisbc.com/
+    httpStatus: 0
+    note: DNS does not resolve (NXDOMAIN).
+  - url: https://api.fortisbc.com/
+    httpStatus: 0
+    note: DNS does not resolve (NXDOMAIN).
+  - url: https://docs.fortisbc.com/
+    httpStatus: 0
+    note: DNS does not resolve (NXDOMAIN).
+  - url: https://data.fortisbc.com/
+    httpStatus: 0
+    note: DNS does not resolve (NXDOMAIN).
+  - url: https://opendata.fortisbc.com/
+    httpStatus: 0
+    note: DNS does not resolve (NXDOMAIN).
+  - url: https://gis.fortisbc.com/
+    httpStatus: 0
+    note: DNS does not resolve (NXDOMAIN).
+  - url: https://maps.fortisbc.com/
+    httpStatus: 0
+    note: DNS does not resolve (NXDOMAIN).
+  - url: https://services.fortisbc.com/
+    httpStatus: 0
+    note: DNS does not resolve (NXDOMAIN).
+  - url: https://www.fortisbc.com/developers
+    httpStatus: 404
+  - url: https://www.fortisbc.com/api
+    httpStatus: 404
+  - url: https://www.fortisbc.com/docs
+    httpStatus: 404
+  - url: https://www.fortisbc.com/data
+    httpStatus: 404
+  - url: https://www.fortisbc.com/about-us/open-data
+    httpStatus: 404
+  - url: https://www.fortisbc.com/openapi.json
+    httpStatus: 404
+  - url: https://www.fortisbc.com/swagger.json
+    httpStatus: 404
+  - url: https://www.fortisbc.com/api-docs
+    httpStatus: 404
+  - url: https://www.fortisbc.com/.well-known/openid-configuration
+    httpStatus: 404
+  - url: https://www.fortisbc.com/.well-known/security.txt
+    httpStatus: 404
+  - url: https://www.fortisbc.com/.well-known/ai-plugin.json
+    httpStatus: 404
+  - url: https://www.fortisbc.com/llms.txt
+    httpStatus: 404
+  - url: https://www.fortisbc.com/sitemap.xml
+    httpStatus: 404
+  - url: https://www.fortisbc.com/robots.txt
+    httpStatus: 200
+    note: Served but empty body.
+  - url: https://accounts.fortisbc.com/
+    httpStatus: 200
+    note: >-
+      Customer login. Redirects to ciam.fortisbc.com SiteMinder form with a SAML
+      2.0 request to ciamidp.fortisbc.com. Not a developer portal.
+  - url: https://accounts.fortisbc.com/.well-known/openid-configuration
+    httpStatus: 200
+    note: >-
+      Soft 200. Body is a WAF block page (APPFW_SIGNATURE_MATCH), not an OIDC
+      discovery document.
+  - url: https://accounts.fortisbc.com/swagger.json
+    httpStatus: 404
+  - url: https://accounts.fortisbc.com/openapi.json
+    httpStatus: 404
+  - url: https://outages.fortisbc.com/outages
+    httpStatus: 200
+    note: >-
+      ASP.NET outage map using a Bing Maps control. No documented data endpoint
+      or published contract in the page or its JavaScript.
+  - url: https://outages.fortisbc.com/Outages/Scripts/Custom/jOutageMap.js
+    httpStatus: 200
+    note: Map client script. No documented public data URL.
+  - url: https://rebates.fortisbc.com/
+    httpStatus: 200
+    note: Rebate application web app. No API surface.
+  - url: https://www.fortisbc.com/accounts/open-close-or-move-your-account/my-energy-use
+    httpStatus: 200
+    note: >-
+      Describes in-portal energy use views and personalized tips. No Green
+      Button, no Download My Data, no Connect My Data, no API, no third-party
+      sharing.
+  - url: https://www.fortisbc.com/services/commercial-industrial-services/energy-efficiency-tools-for-natural-gas-business-customers
+    httpStatus: 200
+    note: Landing page for the ENERGY STAR Portfolio Manager data exchange.
+  - url: https://www.fortisbc.com/services/commercial-industrial-services/energy-efficiency-tools-for-natural-gas-business-customers/portfolio-manager-terms-and-conditions
+    httpStatus: 200
+    note: Terms and conditions a customer accepts before FortisBC releases data.
+  - url: https://www.cdn.fortisbc.com/libraries/docs/default-source/services-documents/portfolio-manager-quick-guide.pdf
+    httpStatus: 200
+    note: >-
+      2-page PDF documenting the five-step Portfolio Manager connection and
+      meter-validation flow. The only machine-to-machine data flow FortisBC
+      documents anywhere.
+  - url: https://www.fortisbc.com/about-us/facilities-operations-and-energy-information
+    httpStatus: 200
+    note: Rates, BCUC filings, Kootenay Lake levels. Documents only, no datasets.
+  - url: https://api.github.com/orgs/fortisbc
+    httpStatus: 200
+    note: >-
+      Organization "FortisBC" exists, created 2022-06-06, public_repos = 0. No
+      published code or specs.
+  - url: https://www.fortisbc.com/App_Themes/Images/apple-touch-icon-152x152.png
+    httpStatus: 200
+    note: Real brand icon, 20802 bytes, image/png. Used as the apis.yml image.
+  artifactsHarvested:
+    openapi: 0
+    asyncapi: 0
+    graphql: 0
+    collections: 0
+    note: Nothing real was found to harvest; no openapi/ directory was created.
+
+sources:
+- url: https://www.fortisbc.com/
+  fetched: '2026-07-27'
+  httpStatus: 200
+- url: https://en.wikipedia.org/wiki/FortisBC
+  fetched: '2026-07-27'
+  httpStatus: 200
+  note: Customer counts, service territory, LNG facilities, corporate history.
+- url: https://www.greenbuttonalliance.org/canadian-initiatives
+  fetched: '2026-07-27'
+  httpStatus: 200
+  note: British Columbia status, Ontario O. Reg. 633/21, Nova Scotia Bill 145.
+- url: https://www.cdn.fortisbc.com/libraries/docs/default-source/services-documents/portfolio-manager-quick-guide.pdf
+  fetched: '2026-07-27'
+  httpStatus: 200
+- url: https://www.fortisbc.com/accounts/open-close-or-move-your-account/my-energy-use
+  fetched: '2026-07-27'
+  httpStatus: 200
+- url: https://accounts.fortisbc.com/
+  fetched: '2026-07-27'
+  httpStatus: 200
