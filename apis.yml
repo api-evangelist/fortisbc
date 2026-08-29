@@ -22,6 +22,17 @@ description: >-
   an arrangement FortisBC participates in rather than an API it publishes. No
   open market, grid, or system data is published. Consumer data closed, market
   data closed.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.fortisbc.com/App_Themes/Images/apple-touch-icon-152x152.png
 tags:
 - Energy
