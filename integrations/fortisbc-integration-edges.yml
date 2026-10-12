@@ -1,0 +1,31 @@
+edges:
+- partner_name: Arcadia
+  partner: arcadia-power
+  channel: partner-built
+  direction: partner-built
+  operations:
+  - statements
+  - statement-history
+  - web-navigation
+  contract_reference:
+    list: Arcadia Plug provider coverage (public list)
+    spec_file: null
+    listed_name: FortisBC
+    listed_id: prv_56c6051b-ab40-11e1-a621-12313d02ea33
+    matched_domain: fortisbc.com
+    service_types:
+    - Lighting
+    - Electric
+    - Natural Gas
+    - Propane
+    detected_by: sweep-energy.py
+    detected: '2026-10-13'
+  type: coverage
+  relationship: system-coverage
+  evidence: https://api.arcadia.com/plug/providers/public
+  detected_by: sweep-energy.py
+  first_seen: '2026-10-13'
+generated: '2026-10-13'
+method: searched
+checked:
+- https://api.arcadia.com/plug/providers/public
