@@ -1,4 +1,4 @@
-# FortisBC (fortisbc)
+# FortisBC
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,75 +64,86 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-FortisBC is a British Columbia energy utility and a subsidiary of Fortis Inc., delivering natural gas to more than 1,054,000 customers and electricity directly to close to 185,000 customers across the province's Southern Interior, plus liquefied natural gas from the Tilbury and Mt. Hayes facilities, renewable natural gas, and EV charging. It sits at the regulated distribution tier of the value chain — the wires-and-pipes monopoly that meters the customer — under British Columbia Utilities Commission oversight, in a province with no wholesale electricity market and no consumer energy data right. Its API posture is honestly none: no developer portal, no published API, no OpenAPI, and no Green Button.
+FortisBC is a British Columbia energy utility and a subsidiary of Fortis Inc., delivering natural gas to more than 1,054,000 customers and electricity directly to close to 185,000 customers across the province's Southern Interior, plus liquefied natural gas from the Tilbury and Mt. Hayes facilities, renewable natural gas, and EV charging. It sits at the regulated distribution tier of the value chain — the wires-and-pipes monopoly that meters the customer — under British Columbia Utilities Commission oversight, in a province with no wholesale electricity market and no consumer energy data right. Its API posture is honestly none: no developer portal, no published API, no OpenAPI, and no Green Button. British Columbia sits outside Ontario's Green Button regulation (O. Reg. 633/21) and outside Australia's Consumer Data Right, and the Green Button Alliance reports only "minor discussions of Green Button in British Columbia to-date". Consumer usage data is reachable only by the account holder through a SiteMinder-protected customer login at accounts.fortisbc.com, or — for commercial gas customers only — pushed into the US EPA's ENERGY STAR Portfolio Manager via that platform's data exchange, an arrangement FortisBC participates in rather than an API it publishes. No open market, grid, or system data is published. Consumer data closed, market data closed.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/fortisbc/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/fortisbc/refs/heads/main/apis.yml)
+**Areas:** Energy · Canada · Utilities · Electricity · Natural Gas · Gas Distribution · Smart Metering · Renewables · EV Charging · LNG
 
-## Tags
+## FortisBC on APIs.io
 
-- Energy
-- Canada
-- Utilities
-- Electricity
-- Natural Gas
-- Gas Distribution
-- Smart Metering
-- Renewables
-- EV Charging
-- LNG
+Everything profiled for FortisBC is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/fortisbc/](https://apis.io/providers/fortisbc/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-07-27
-- **Modified:** 2026-07-27
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Security (1)
 
-None. FortisBC publishes no public API.
+Authentication, trust centre, and vulnerability disclosure.
 
-Probed anonymously on 2026-07-27: the `developer.`, `developers.`, `api.`, `docs.`, `data.`, `gis.`, `maps.`, `opendata.`, `services.`, `my.` and `portal.` subdomains do not resolve, and `/developers`, `/api`, `/docs`, `/data`, `/openapi.json`, `/swagger.json`, `/api-docs`, `/.well-known/openid-configuration`, `/.well-known/security.txt`, `/llms.txt` and `/about-us/open-data` all return HTTP 404 on `www.fortisbc.com`. A `github.com/FortisBC` organization exists but has 0 public repositories.
+- [Fortisbc Domain Security](https://apis.io/security/fortisbc/fortisbc-domain-security/)
 
-## Mandate
+## Where to find this API
 
-- **Regime:** none
-- **Status:** none
-- **Data standard:** no standard reference found
-
-No consumer energy data mandate applies. Ontario's Green Button obligation (O. Reg. 633/21, November 2021, with Green Button Alliance certification required by November 2023) binds only Ontario local distribution companies; Nova Scotia's Bill 145 binds only Nova Scotia Power; Australia's Consumer Data Right is an Australian statute. British Columbia has enacted no equivalent, and the Green Button Alliance states it has "heard only minor discussions of Green Button in British Columbia to-date."
-
-This is not a mandate that went unimplemented. It is the control case — no mandate, and correspondingly nothing built.
-
-## Data access
-
-- **Consumer data API:** no. Account holders reach their own usage through the SiteMinder-protected customer login at [accounts.fortisbc.com](https://accounts.fortisbc.com) and export billing information as a text file or spreadsheet. No third-party API, no Green Button Download My Data, no Connect My Data.
-- **Market data open:** no. Rates, BCUC filings and Kootenay Lake levels are published as web pages and PDFs. British Columbia has no wholesale market operator publishing feeds. The outage map at [outages.fortisbc.com](https://outages.fortisbc.com/outages) is a Bing Maps web app with no documented data endpoint.
-- **The one automated flow:** FortisBC pushes commercial natural gas consumption data into the US EPA's ENERGY STAR Portfolio Manager (adapted for Canada by Natural Resources Canada) on customer request. The customer connects to "FortisBC natural gas" in Portfolio Manager, accepts FortisBC's terms, waits up to 24 hours for acceptance, then validates each meter with a FortisBC account number, last bill date and amount at "full access" sharing. Three years of history plus ongoing consumption is released. The API in that exchange belongs to the EPA, not to FortisBC.
-
-## Access gate
-
-**customer-account-required.** There is no signup, no key request, no application form and no partner program. A developer must be a FortisBC account holder, and for the automated gas flow must additionally hold an ENERGY STAR Portfolio Manager account and complete that platform's consent and meter-validation steps.
-
-## Auth model
-
-CA/Broadcom SiteMinder web agent with SAML 2.0 SSO (`ciam.fortisbc.com` → `ciamidp.fortisbc.com`), human interactive login only. No OpenID Connect discovery document is served — `www.fortisbc.com/.well-known/openid-configuration` returns 404, and the 200 on the `accounts.` host is a WAF block page, not a discovery document. No OAuth, no API keys, no third-party authorization surface.
-
-## Home market
-
-Canada — British Columbia. Regulated by the British Columbia Utilities Commission (BCUC). Parent: Fortis Inc.
-
-## Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.fortisbc.com/)
-- [LinkedIn](https://www.linkedin.com/company/fortisbc)
+- [Documentation](https://www.fortisbc.com/accounts/open-close-or-move-your-account/my-energy-use)
+- [Support](https://www.fortisbc.com/contact-us)
 - [Blog](https://www.fortisbc.com/about-us/news-events/stories)
-- [Login](https://accounts.fortisbc.com)
-- [Documentation — My energy use](https://www.fortisbc.com/accounts/open-close-or-move-your-account/my-energy-use)
-- [Documentation — Manage your online account](https://www.fortisbc.com/accounts/open-close-or-move-your-account/manage-your-online-account)
-- [Documentation — Energy-efficiency tools for natural gas business customers](https://www.fortisbc.com/services/commercial-industrial-services/energy-efficiency-tools-for-natural-gas-business-customers)
-- [Terms of Service — Portfolio Manager](https://www.fortisbc.com/services/commercial-industrial-services/energy-efficiency-tools-for-natural-gas-business-customers/portfolio-manager-terms-and-conditions)
-- [Privacy](https://www.fortisbc.com/privacy)
-- [Status Page — Outages](https://outages.fortisbc.com/outages)
+- [Terms of service](https://www.fortisbc.com/services/commercial-industrial-services/energy-efficiency-tools-for-natural-gas-business-customers/portfolio-manager-terms-and-conditions)
+- [Privacy policy](https://www.fortisbc.com/privacy)
+- [GitHub](https://github.com/FortisBC)
+- [Status](https://outages.fortisbc.com/outages)
 
-## Maintainers
+## API Evangelist rating
 
-- Kin Lane — kin@apievangelist.com
+**Kin Score 17.7** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 55.4 |
+| Contract quality | 0.0 |
+| Contract governance | 4.5 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 16.7 |
+| Access clarity | 27.6 |
+
+**Agent readiness 0.0** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 15.6** — Energy & Utilities
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/fortisbc/](https://apis.io/providers/fortisbc/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for FortisBC: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/fortisbc/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
